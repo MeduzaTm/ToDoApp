@@ -15,13 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        setupGlobalAppearance() // Настройка глобального внешнего вида
+        setupGlobalAppearance()
         window?.rootViewController = UINavigationController(rootViewController: ToDoListViewController())
         window?.makeKeyAndVisible()
     }
 
     private func setupGlobalAppearance() {
-        // Глобальные настройки NavigationBar
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .systemBackground
