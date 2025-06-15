@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		84A4DFE72DFC32390062CDC9 /* TodoListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A4DFE72DFC32390062CDC9 /* TodoIstApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoIstApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		84A4DFFC2DFC323B0062CDC9 /* Exceptions for "TodoListApp" folder in "TodoListApp" target */ = {
+		F8A4A5CA2DFECEBA00FAF781 /* Exceptions for "TodoIstApp" folder in "TodoIstApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 84A4DFE62DFC32390062CDC9 /* TodoListApp */;
+			target = 84A4DFE62DFC32390062CDC9 /* TodoIstApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		84A4DFE92DFC32390062CDC9 /* TodoListApp */ = {
+		84A4DFE92DFC32390062CDC9 /* TodoIstApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				84A4DFFC2DFC323B0062CDC9 /* Exceptions for "TodoListApp" folder in "TodoListApp" target */,
+				F8A4A5CA2DFECEBA00FAF781 /* Exceptions for "TodoIstApp" folder in "TodoIstApp" target */,
 			);
-			path = TodoListApp;
+			path = TodoIstApp;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +45,7 @@
 		84A4DFDE2DFC32390062CDC9 = {
 			isa = PBXGroup;
 			children = (
-				84A4DFE92DFC32390062CDC9 /* TodoListApp */,
+				84A4DFE92DFC32390062CDC9 /* TodoIstApp */,
 				84A4DFE82DFC32390062CDC9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,7 +53,7 @@
 		84A4DFE82DFC32390062CDC9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				84A4DFE72DFC32390062CDC9 /* TodoListApp.app */,
+				84A4DFE72DFC32390062CDC9 /* TodoIstApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,9 +61,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		84A4DFE62DFC32390062CDC9 /* TodoListApp */ = {
+		84A4DFE62DFC32390062CDC9 /* TodoIstApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 84A4DFFD2DFC323B0062CDC9 /* Build configuration list for PBXNativeTarget "TodoListApp" */;
+			buildConfigurationList = 84A4DFFD2DFC323B0062CDC9 /* Build configuration list for PBXNativeTarget "TodoIstApp" */;
 			buildPhases = (
 				84A4DFE32DFC32390062CDC9 /* Sources */,
 				84A4DFE42DFC32390062CDC9 /* Frameworks */,
@@ -74,13 +74,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				84A4DFE92DFC32390062CDC9 /* TodoListApp */,
+				84A4DFE92DFC32390062CDC9 /* TodoIstApp */,
 			);
-			name = TodoListApp;
+			name = TodoIstApp;
 			packageProductDependencies = (
 			);
 			productName = TodoistApp;
-			productReference = 84A4DFE72DFC32390062CDC9 /* TodoListApp.app */;
+			productReference = 84A4DFE72DFC32390062CDC9 /* TodoIstApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 84A4DFE22DFC32390062CDC9 /* Build configuration list for PBXProject "TodoListApp" */;
+			buildConfigurationList = 84A4DFE22DFC32390062CDC9 /* Build configuration list for PBXProject "TodoIstApp" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				84A4DFE62DFC32390062CDC9 /* TodoListApp */,
+				84A4DFE62DFC32390062CDC9 /* TodoIstApp */,
 			);
 		};
 /* End PBXProject section */
@@ -147,7 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BDAFA8F35C;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TodoListApp/Info.plist;
+				INFOPLIST_FILE = TodoIstApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -174,7 +174,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BDAFA8F35C;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TodoListApp/Info.plist;
+				INFOPLIST_FILE = TodoIstApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -314,7 +314,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		84A4DFE22DFC32390062CDC9 /* Build configuration list for PBXProject "TodoListApp" */ = {
+		84A4DFE22DFC32390062CDC9 /* Build configuration list for PBXProject "TodoIstApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84A4E0002DFC323B0062CDC9 /* Debug */,
@@ -323,7 +323,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		84A4DFFD2DFC323B0062CDC9 /* Build configuration list for PBXNativeTarget "TodoListApp" */ = {
+		84A4DFFD2DFC323B0062CDC9 /* Build configuration list for PBXNativeTarget "TodoIstApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84A4DFFE2DFC323B0062CDC9 /* Debug */,
