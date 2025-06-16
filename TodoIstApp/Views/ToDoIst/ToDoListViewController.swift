@@ -7,19 +7,10 @@
 
 import UIKit
 
-class ToDoListViewController: UIViewController, UITabBarDelegate {
+class ToDoIstViewController: UIViewController {
     private var viewModel = ToDoViewModel()
     
-    lazy var searchController: UISearchController = {
-        let search = UISearchController(searchResultsController: nil)
-        
-        search.searchBar.searchBarStyle = .prominent
-        search.searchBar.delegate = self
-        
-        return search
-    }()
-    
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MainListCell.self, forCellReuseIdentifier: "MainListCell")
@@ -28,13 +19,18 @@ class ToDoListViewController: UIViewController, UITabBarDelegate {
         return tableView
     }()
     
+    private lazy var searchController: UISearchController = {
+        let search = UISearchController(searchResultsController: nil)
+        search.searchBar.searchBarStyle = .prominent
+        search.searchBar.delegate = self
+        return search
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Заметки"
         navigationItem.largeTitleDisplayMode = .always
-        view.backgroundColor = .systemBackground
-        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
         searchController.searchBar.searchTextField.textColor = .white
@@ -42,14 +38,22 @@ class ToDoListViewController: UIViewController, UITabBarDelegate {
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        viewModel.didUpdateData = { [weak self] in
-            self?.tableView.reloadData()
-        }
-        
         setupUI()
+        setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (tabBarController as? MainTabBarController)?.showCustomTabBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        (tabBarController as? MainTabBarController)?.hideCustomTabBar()
     }
     
     private func setupUI() {
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -60,20 +64,18 @@ class ToDoListViewController: UIViewController, UITabBarDelegate {
         ])
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            view.backgroundColor = .systemBackground
+    private func setupBindings() {
+        viewModel.didUpdateData = { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 }
 
-extension ToDoListViewController: UISearchBarDelegate {
+extension ToDoIstViewController: UISearchBarDelegate {
     
 }
 
-extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.toDos.count
     }
@@ -90,8 +92,5 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
         let editVC = AddEditToDoViewController()
         editVC.configure(with: toDo)
         navigationController?.pushViewController(editVC, animated: true)
-        
     }
-    
-    
 }

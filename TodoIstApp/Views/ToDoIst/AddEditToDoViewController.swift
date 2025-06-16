@@ -71,5 +71,4 @@ class AddEditToDoViewController: UIViewController {
         dateFormatter.dateFormat = "dd/MM/yyyy"
         dateTitle.text = dateFormatter.string(from: toDo.creationDate ?? Date())
     }
-    
 }
