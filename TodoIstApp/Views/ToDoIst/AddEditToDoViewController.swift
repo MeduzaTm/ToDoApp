@@ -62,4 +62,14 @@ class AddEditToDoViewController: UIViewController {
         ])
     }
     
+    func configure(with toDo: ToDoItem) {
+        toDoTitle.text = toDo.title ?? ""
+        dateTitle.text = toDo.creationDate?.description ?? ""
+        toDoTextView.text = toDo.toDoItem
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        dateTitle.text = dateFormatter.string(from: toDo.creationDate ?? Date())
+    }
+    
 }
