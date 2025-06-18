@@ -22,9 +22,9 @@ class CoreDataManager {
     }()
     
     var context: NSManagedObjectContext {
-            return persistentContainer.viewContext
-        }
-
+        return persistentContainer.viewContext
+    }
+    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -54,19 +54,37 @@ class CoreDataManager {
         do {
             return try context.fetch(fetchRequest)
         } catch {
-            fatalError("Failed to fetch ToDos: \(error)")
+            return []
         }
     }
     
-    func updateToDo(toDo: ToDoItem, newToDoItem: String?, isCompleted: Bool, newTitle: String?) {
-        if let newToDoItem = newToDoItem {
-            toDo.toDoItem = newToDoItem
-        }
-        if isCompleted != toDo.isCompleted {
-            toDo.isCompleted = isCompleted
-        }
-        if let title = newTitle {
-            toDo.title = title
+    func updateToDo(id: UUID, newToDoItem: String? = nil, newIsCompleted: Bool? = nil, newTitle: String? = nil) -> ToDoItem? {
+        let context = context
+        
+        let fetchRequest: NSFetchRequest<ToDoItem> = ToDoItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            guard let toDoItemToUpdate = results.first else {
+                print("Заметка с id \(id) не найдена")
+                return nil
+            }
+            if let newToDoItem = newToDoItem {
+                toDoItemToUpdate.toDoItem = newToDoItem
+            }
+            if let newIsCompleted = newIsCompleted {
+                toDoItemToUpdate.isCompleted = newIsCompleted
+            }
+            if let newTitle = newTitle {
+                toDoItemToUpdate.title = newTitle
+            }
+            saveContext()
+            return toDoItemToUpdate
+            
+        } catch {
+            print("Ошибка при обновлении заметки: \(error)")
+            return nil
         }
     }
     

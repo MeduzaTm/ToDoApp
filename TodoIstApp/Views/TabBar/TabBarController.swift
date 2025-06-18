@@ -7,13 +7,19 @@
 
 import UIKit
 
+protocol MainTabBarControllerDelegate: AnyObject {
+    func didTapAddButton()
+}
+
 final class MainTabBarController: UITabBarController {
-    private var viewModel = ToDoViewModel()
     
-    private let titleLabel: UILabel = {
+    weak var addDelegate: MainTabBarControllerDelegate?
+    private var viewModel = ToDoViewModel()
+    private var mainVC = ToDoIstViewController()
+    
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "22 tasks"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
@@ -45,12 +51,13 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabs()
         hideSystemTabBar()
+        updateTasksCount()
     }
     
     private func setupTabs() {
         let todoVC = ToDoIstViewController()
-        let todoNav = UINavigationController(rootViewController: todoVC)
-        viewControllers = [todoNav]
+        viewControllers = [todoVC]
+        todoVC.viewModel.delegate = self
         
         view.addSubview(customTabBar)
         customTabBar.addSubview(titleLabel)
@@ -77,7 +84,7 @@ final class MainTabBarController: UITabBarController {
     }
     
     @objc private func addToDo() {
-        viewModel.addToDo(toDoItem: "New ToDo Item", isCompleted: false, title: "New ToDo")
+        addDelegate?.didTapAddButton()
     }
     
     func showCustomTabBar() {
@@ -86,5 +93,18 @@ final class MainTabBarController: UITabBarController {
     
     func hideCustomTabBar() {
         customTabBar.isHidden = true
+    }
+    
+    private func updateTasksCount() {
+        let count = viewModel.toDos.count
+        titleLabel.text = count == 0 ? "No tasks" : "\(count) tasks"
+    }
+}
+
+extension MainTabBarController: ToDoViewModelDelegate {
+    func didUpdateTasksCount(count: Int) {
+        DispatchQueue.main.async {
+            self.titleLabel.text = count == 0 ? "No tasks" : "\(count) tasks"
+        }
     }
 }

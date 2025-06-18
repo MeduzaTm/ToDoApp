@@ -8,9 +8,8 @@
 import UIKit
 
 class ToDoIstViewController: UIViewController {
-    private var viewModel = ToDoViewModel()
-    
-    private lazy var tableView: UITableView = {
+    var viewModel = ToDoViewModel()
+    lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MainListCell.self, forCellReuseIdentifier: "MainListCell")
@@ -29,7 +28,7 @@ class ToDoIstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Заметки"
+        title = "Todoist"
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
@@ -40,11 +39,16 @@ class ToDoIstViewController: UIViewController {
         
         setupUI()
         setupBindings()
+        
+        if let tabBarController = self.tabBarController as? MainTabBarController {
+            tabBarController.addDelegate = self
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? MainTabBarController)?.showCustomTabBar()
+        viewModel.loadToDos()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,6 +66,14 @@ class ToDoIstViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        tableView.estimatedRowHeight = 60
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.backgroundColor = UIColor.systemGroupedBackground
+        }
     }
     
     private func setupBindings() {
@@ -91,6 +103,66 @@ extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
         let toDo = viewModel.toDos[indexPath.row]
         let editVC = AddEditToDoViewController()
         editVC.configure(with: toDo)
+        editVC.editingToDo = toDo
         navigationController?.pushViewController(editVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.5, delay: 0.05 * Double(indexPath.row), options: [.curveEaseInOut], animations: {
+            cell.alpha = 1
+        })
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            UIView.animate(withDuration: 1, animations: {
+                self.viewModel.deleteToDo(at: indexPath.row)
+                self.tableView.reloadData()
+            })
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [
+                UIAction(title: "Edit", image: UIImage(systemName: "square.and.pencil"), identifier: nil, handler: { _ in
+                    let toDo = self.viewModel.toDos[indexPath.row]
+                    let editVC = AddEditToDoViewController()
+                    editVC.configure(with: toDo)
+                    editVC.editingToDo = toDo
+                    self.navigationController?.pushViewController(editVC, animated: true)
+                }),
+                UIAction(title: "Mark as complete", image: UIImage(systemName: "checkmark"), identifier: nil, handler: { _ in
+                    let toDo = self.viewModel.toDos[indexPath.row]
+                    self.viewModel.toggleToDoCompletion(id: toDo.id!)
+                }),
+                UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil, handler: { _ in
+                    let activityController = UIActivityViewController(activityItems: [self.viewModel.toDos[indexPath.row].description], applicationActivities: nil)
+                    self.present(activityController, animated: true, completion: nil)
+                }),
+                UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { _ in
+                    self.tableView(tableView, commit: .delete, forRowAt: indexPath)
+                })
+            ])
+        }
+    }
+}
+
+extension ToDoIstViewController: MainTabBarControllerDelegate, EditDelegate {
+    func didTapAddButton() {
+        let addVC = AddEditToDoViewController()
+        addVC.delegate = self
+        navigationController?.pushViewController(addVC, animated: true)
+    }
+    
+    func didUpdateToDo() {
+        viewModel.loadToDos()
+        tableView.reloadData()
     }
 }

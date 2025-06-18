@@ -41,6 +41,13 @@ class MainListCell: UITableViewCell {
         return label
     }()
     
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -55,6 +62,7 @@ class MainListCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(secondaryLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(separatorView)
         
         checkmarkButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -78,8 +86,12 @@ class MainListCell: UITableViewCell {
             
             dateLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor, constant: 2),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
+            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
     }
     
@@ -105,13 +117,14 @@ class MainListCell: UITableViewCell {
             titleLabel.attributedText = attributedString
             checkmarkButton.isSelected = true
         }
+        
         if todoItem.isCompleted == false {
             titleLabel.text = todoItem.title ?? ""
             checkmarkButton.isSelected = false
         }
         
         secondaryLabel.text = todoItem.toDoItem
-    
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         dateLabel.text = dateFormatter.string(from: todoItem.creationDate ?? Date())
