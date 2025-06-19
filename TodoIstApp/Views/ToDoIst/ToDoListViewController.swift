@@ -21,6 +21,7 @@ class ToDoIstViewController: UIViewController {
     private lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
         search.searchBar.searchBarStyle = .prominent
+        search.searchResultsUpdater = self
         search.searchBar.delegate = self
         return search
     }()
@@ -32,7 +33,6 @@ class ToDoIstViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
-        searchController.searchBar.searchTextField.textColor = .white
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
@@ -83,13 +83,17 @@ class ToDoIstViewController: UIViewController {
     }
 }
 
-extension ToDoIstViewController: UISearchBarDelegate {
-    
+extension ToDoIstViewController: UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        viewModel.searchToDos(searchText: searchText)
+        tableView.reloadData()
+    }
 }
 
 extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.toDos.count
+        return viewModel.isSearching ? viewModel.filterTodos.count : viewModel.toDos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -100,7 +104,8 @@ extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let toDo = viewModel.toDos[indexPath.row]
+        let toDo = viewModel.isSearching ? viewModel.filterTodos[indexPath.row] : viewModel.toDos[indexPath.row]
+        
         let editVC = AddEditToDoViewController()
         editVC.configure(with: toDo)
         editVC.editingToDo = toDo
@@ -112,17 +117,11 @@ extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
         true
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-        UIView.animate(withDuration: 0.5, delay: 0.05 * Double(indexPath.row), options: [.curveEaseInOut], animations: {
-            cell.alpha = 1
-        })
-    }
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            UIView.animate(withDuration: 1, animations: {
+            UIView.animate(withDuration: 2, animations: {
                 self.viewModel.deleteToDo(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.tableView.reloadData()
             })
         }

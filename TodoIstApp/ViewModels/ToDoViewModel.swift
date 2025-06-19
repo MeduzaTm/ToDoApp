@@ -27,6 +27,9 @@ class ToDoViewModel {
         }
     }
     
+    var filterTodos: [ToDoItem] = []
+    var isSearching: Bool = false
+    
     init(coreDataManager: CoreDataManager = CoreDataManager.shared) {
         self.coreDataManager = coreDataManager
         loadToDos()
@@ -65,6 +68,20 @@ class ToDoViewModel {
         coreDataManager.deleteToDo(toDo: toDo)
         delegate?.didUpdateTasksCount(count: toDos.count)
         loadToDos()
+    }
+    
+    func searchToDos(searchText: String) {
+        if searchText.isEmpty {
+            filterTodos = toDos
+            isSearching = false
+        } else {
+            filterTodos = toDos.filter {
+                ($0.title?.lowercased().contains(searchText.lowercased()) == true) ||
+                ($0.toDoItem?.lowercased().contains(searchText.lowercased()) == true)
+            }
+            isSearching = true
+        }
+        didUpdateData?()
     }
     
     func toggleToDoCompletion(id: UUID) {

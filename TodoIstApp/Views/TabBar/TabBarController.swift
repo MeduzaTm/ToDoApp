@@ -51,7 +51,7 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabs()
         hideSystemTabBar()
-        updateTasksCount()
+        didUpdateTasksCount(count: viewModel.toDos.count)
     }
     
     private func setupTabs() {
@@ -93,11 +93,6 @@ final class MainTabBarController: UITabBarController {
     
     func hideCustomTabBar() {
         customTabBar.isHidden = true
-    }
-    
-    private func updateTasksCount() {
-        let count = viewModel.toDos.count
-        titleLabel.text = count == 0 ? "No tasks" : "\(count) tasks"
     }
 }
 

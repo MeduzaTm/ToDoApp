@@ -31,6 +31,9 @@ class MainListCell: UITableViewCell {
     private let secondaryLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
+        label.adjustsFontSizeToFitWidth = false
         return label
     }()
     
@@ -96,37 +99,32 @@ class MainListCell: UITableViewCell {
     }
     
     func configure(with todoItem: ToDoItem) {
+        let title = todoItem.title ?? ""
+        let attributedString = NSMutableAttributedString(string: title)
         
-        if todoItem.isCompleted == true {
-            let attributedString = NSMutableAttributedString(string: todoItem.title ?? "")
-            attributedString.addAttribute(
-                .strikethroughStyle,
-                value: NSUnderlineStyle.single.rawValue,
-                range: NSRange(location: 0, length: attributedString.length)
-            )
-            attributedString.addAttribute(
-                .strikethroughColor,
-                value: UIColor.gray,
-                range: NSRange(location: 0, length: attributedString.length)
-            )
-            attributedString.addAttribute(
-                .foregroundColor,
-                value: UIColor.gray,
-                range: NSRange(location: 0, length: attributedString.length)
-            )
-            titleLabel.attributedText = attributedString
-            checkmarkButton.isSelected = true
+        if todoItem.isCompleted {
+            attributedString.addAttributes([
+                .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                .strikethroughColor: UIColor.lightGray,
+                .foregroundColor: UIColor.lightGray,
+                .font: UIFont.systemFont(ofSize: titleLabel.font.pointSize, weight: .regular)
+            ], range: NSRange(location: 0, length: attributedString.length))
+        } else {
+            attributedString.addAttributes([
+                .strikethroughStyle: 0,
+                .foregroundColor: UIColor.label,
+                .font: UIFont.systemFont(ofSize: titleLabel.font.pointSize, weight: .medium)
+            ], range: NSRange(location: 0, length: attributedString.length))
         }
         
-        if todoItem.isCompleted == false {
-            titleLabel.text = todoItem.title ?? ""
-            checkmarkButton.isSelected = false
-        }
-        
+        titleLabel.attributedText = attributedString
+        checkmarkButton.isSelected = todoItem.isCompleted
+
         secondaryLabel.text = todoItem.toDoItem
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         dateLabel.text = dateFormatter.string(from: todoItem.creationDate ?? Date())
+        layoutIfNeeded()
     }
 }
