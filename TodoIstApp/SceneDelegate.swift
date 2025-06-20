@@ -31,6 +31,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func setupGlobalAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
+        
+        appearance.titlePositionAdjustment = UIOffset(
+            horizontal: -UIScreen.main.bounds.width/2 + 16,
+            vertical: 0
+        )
+        
         appearance.backgroundColor = .systemBackground
         appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
@@ -38,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().tintColor = .label
+        UINavigationBar.appearance().tintColor = .systemYellow
         UINavigationBar.appearance().prefersLargeTitles = true
     }
     

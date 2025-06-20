@@ -8,7 +8,7 @@
 import UIKit
 
 class ToDoIstViewController: UIViewController {
-    var viewModel = ToDoViewModel()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +44,8 @@ class ToDoIstViewController: UIViewController {
             tabBarController.addDelegate = self
         }
     }
+
+    var viewModel = ToDoViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -92,26 +94,65 @@ extension ToDoIstViewController: UISearchResultsUpdating, UISearchBarDelegate {
 }
 
 extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.isSearching ? viewModel.filterTodos.count : viewModel.toDos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MainListCell", for: indexPath) as! MainListCell
-        let toDo = viewModel.toDos[indexPath.row]
-        cell.configure(with: toDo)
+        let toDo = viewModel.isSearching ? viewModel.filterTodos[indexPath.row] : viewModel.toDos[indexPath.row]
+        cell.configure(with: toDo, isSelected: toDo.isCompleted)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let toDo = viewModel.isSearching ? viewModel.filterTodos[indexPath.row] : viewModel.toDos[indexPath.row]
+        viewModel.toggleToDoCompletion(id: toDo.id!)
         
         let editVC = AddEditToDoViewController()
         editVC.configure(with: toDo)
         editVC.editingToDo = toDo
         navigationController?.pushViewController(editVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+        
+//        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//            tableView.deselectRow(at: indexPath, animated: true)
+//            
+//            let toDo = viewModel.isSearching ? viewModel.filterTodos[indexPath.row] : viewModel.toDos[indexPath.row]
+//            viewModel.toggleToDoCompletion(id: toDo.id!)
+//            
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+//            
+//             3. Переход на экран редактирования (если нужно)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                let editVC = AddEditToDoViewController()
+//                editVC.configure(with: toDo)
+//                editVC.editingToDo = toDo
+//                self.navigationController?.pushViewController(editVC, animated: true)
+//            }
+//        }
     }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return viewModel.isSearching ? viewModel.filterTodos.count : viewModel.toDos.count
+//    }
+    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MainListCell", for: indexPath) as! MainListCell
+//        let toDo = viewModel.toDos[indexPath.row]
+//        cell.configure(with: toDo, isSelected: toDo.isCompleted)
+//        return cell
+//    }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let toDo = viewModel.isSearching ? viewModel.filterTodos[indexPath.row] : viewModel.toDos[indexPath.row]
+//        
+//        let editVC = AddEditToDoViewController()
+//        editVC.configure(with: toDo)
+//        editVC.editingToDo = toDo
+//        navigationController?.pushViewController(editVC, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true

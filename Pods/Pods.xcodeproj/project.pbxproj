@@ -3,13 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0D88C1BEDFB9E3DDDB398CC609E22EEF /* Pods-TodoIstApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB07BCC984265BB9AD7F878B83F035E /* Pods-TodoIstApp-dummy.m */; };
 		169E65C1873129B12FE06B690B19B3F7 /* Pods-TodoIstApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D598178F40FCC874D4D4D284CAF6B05 /* Pods-TodoIstApp-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A95515900E9211692DB24A28A7625408 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		F8D3A4712E05F26500845EB6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F8D3A4702E05F26500845EB6 /* SnapKit */; };
+		F8D3A4732E05F26500845EB6 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F8D3A4722E05F26500845EB6 /* SnapKit-Dynamic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,9 +22,9 @@
 		3FC6B2D6D9634F65D1D65C826554F117 /* Pods-TodoIstApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodoIstApp.modulemap"; sourceTree = "<group>"; };
 		4D598178F40FCC874D4D4D284CAF6B05 /* Pods-TodoIstApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodoIstApp-umbrella.h"; sourceTree = "<group>"; };
 		7B11B4B96798BF01848AAF2BBC68E042 /* Pods-TodoIstApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodoIstApp-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		ADD945E803207C469EEE416ADFE20C8A /* Pods-TodoIstApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodoIstApp-acknowledgements.plist"; sourceTree = "<group>"; };
-		BB7613603F845F8326BE6D13E4E9DC7C /* Pods-TodoIstApp */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodoIstApp"; path = Pods_TodoIstApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB7613603F845F8326BE6D13E4E9DC7C /* Pods_TodoIstApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoIstApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD82F5FD1930A98623CBCE7933427FF9 /* Pods-TodoIstApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodoIstApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -32,6 +34,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A95515900E9211692DB24A28A7625408 /* Foundation.framework in Frameworks */,
+				F8D3A4712E05F26500845EB6 /* SnapKit in Frameworks */,
+				F8D3A4732E05F26500845EB6 /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +69,7 @@
 		AEC337D45F1E4730AAA67B174FD9447A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BB7613603F845F8326BE6D13E4E9DC7C /* Pods-TodoIstApp */,
+				BB7613603F845F8326BE6D13E4E9DC7C /* Pods_TodoIstApp.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,7 +129,7 @@
 			);
 			name = "Pods-TodoIstApp";
 			productName = Pods_TodoIstApp;
-			productReference = BB7613603F845F8326BE6D13E4E9DC7C /* Pods-TodoIstApp */;
+			productReference = BB7613603F845F8326BE6D13E4E9DC7C /* Pods_TodoIstApp.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -146,8 +150,9 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				F8D3A46F2E05F26500845EB6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = AEC337D45F1E4730AAA67B174FD9447A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -408,6 +413,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F8D3A46F2E05F26500845EB6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F8D3A4702E05F26500845EB6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F8D3A46F2E05F26500845EB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		F8D3A4722E05F26500845EB6 /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F8D3A46F2E05F26500845EB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 }
