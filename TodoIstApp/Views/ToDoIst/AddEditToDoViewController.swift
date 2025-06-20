@@ -46,6 +46,8 @@ class AddEditToDoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.largeTitleDisplayMode = .never
+        extendedLayoutIncludesOpaqueBars = true
         setupUI()
     }
     
@@ -56,7 +58,6 @@ class AddEditToDoViewController: UIViewController {
         view.addSubview(toDoTextView)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveToDo))
-        
         NSLayoutConstraint.activate([
             toDoTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             toDoTitle.heightAnchor.constraint(equalToConstant: 50),

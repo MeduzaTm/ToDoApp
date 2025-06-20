@@ -30,13 +30,13 @@ class ToDoIstViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Todoist"
-        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
-        
         setupUI()
         setupBindings()
         
@@ -140,6 +140,7 @@ extension ToDoIstViewController: UITableViewDataSource, UITableViewDelegate {
                 UIAction(title: "Mark as complete", image: UIImage(systemName: "checkmark"), identifier: nil, handler: { _ in
                     let toDo = self.viewModel.toDos[indexPath.row]
                     self.viewModel.toggleToDoCompletion(id: toDo.id!)
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }),
                 UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil, handler: { _ in
                     let activityController = UIActivityViewController(activityItems: [self.viewModel.toDos[indexPath.row].description], applicationActivities: nil)
