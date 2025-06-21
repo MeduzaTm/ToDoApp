@@ -10,7 +10,8 @@ import SnapKit
 
 class MainListCell: UITableViewCell {
         
-    let circleImage = UIImageView()
+    var onCircleButtonTapped: (() -> Void)?
+    private let circleButton = UIButton(type: .system)
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,18 +65,18 @@ class MainListCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(circleImage)
+        contentView.addSubview(circleButton)
         contentView.addSubview(stackView)
         contentView.addSubview(separatorView)
         
-        circleImage.snp.makeConstraints {
+        circleButton.snp.makeConstraints {
             $0.left.equalToSuperview().offset(16)
             $0.top.equalToSuperview().offset(16)
             $0.width.height.equalTo(32)
         }
         
         stackView.snp.makeConstraints {
-            $0.left.equalTo(circleImage.snp.right).offset(16)
+            $0.left.equalTo(circleButton.snp.right).offset(16)
             $0.top.equalToSuperview().offset(16)
             $0.bottom.equalToSuperview().offset(-16)
             $0.right.equalToSuperview().offset(-16)
@@ -92,9 +93,14 @@ class MainListCell: UITableViewCell {
             $0.bottom.equalTo(contentView)
             $0.height.equalTo(0.5)
         }
-        
-        circleImage.tintColor = .systemYellow
+        circleButton.isUserInteractionEnabled = true
+        circleButton.tintColor = .systemYellow
+        circleButton.addTarget(self, action: #selector(didTapCircleButton), for: .touchUpInside)
     }
+
+        @objc private func didTapCircleButton() {
+            onCircleButtonTapped?()
+        }
     
     func configure(with todoItem: ToDoItem, isSelected: Bool) {
         let title = todoItem.title ?? ""
@@ -116,25 +122,12 @@ class MainListCell: UITableViewCell {
         }
         
         titleLabel.attributedText = attributedString
-        circleImage.image = isSelected ? UIImage(systemName: "checkmark.circle") : UIImage(systemName: "circle")
-//        if todoItem.isCompleted {
-//                attributedString.addAttributes([
-//                    .strikethroughStyle: NSUnderlineStyle.single.rawValue,
-//                    .strikethroughColor: UIColor.lightGray,
-//                    .foregroundColor: UIColor.lightGray,
-//                    .font: UIFont.systemFont(ofSize: titleLabel.font.pointSize, weight: .regular)
-//                ], range: NSRange(location: 0, length: attributedString.length))
-//                
-//                circleImage.image = UIImage(systemName: "checkmark.circle")
-//            } else {
-//                attributedString.addAttributes([
-//                    .strikethroughStyle: 0,
-//                    .foregroundColor: UIColor.label,
-//                    .font: UIFont.systemFont(ofSize: titleLabel.font.pointSize, weight: .medium)
-//                ], range: NSRange(location: 0, length: attributedString.length))
-                
-//                circleImage.image = UIImage(systemName: "circle")
-//            }
+
+        circleButton.setImage(
+                isSelected ? UIImage(systemName: "checkmark.circle") : UIImage(systemName: "circle"),
+                for: .normal
+            )
+
         secondaryLabel.text = todoItem.toDoItem
 
         let dateFormatter = DateFormatter()
