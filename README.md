@@ -1,6 +1,8 @@
 ToDoIst App
+
 Простое приложение, аналог заметок Apple
-**Стек:**: Swift, UIKit, CoreData, MVVM, SnapKit
+
+**Стек:** Swift, UIKit, CoreData, MVVM, SnapKit
 
 **Функционал**
 
